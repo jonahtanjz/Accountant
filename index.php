@@ -10,7 +10,15 @@ if ($_SERVER["REQUEST_METHOD"]=='POST')
 	}
 	$description = $_POST["description"]; 
 	$payees = $_POST["payee"];
-	$amt_each = ($amount/sizeof($payers))/(sizeof($payees));
+	
+	if (!isset($_POST["unsplit"]))
+	{
+	    $amt_each = ($amount/sizeof($payers))/(sizeof($payees));
+	}
+	else
+	{
+	    $amt_each = $amount/(sizeof($payees));
+	}
 	
 	foreach($payees as $payee)
 	{
@@ -53,6 +61,8 @@ if ($_SERVER["REQUEST_METHOD"]=='POST')
 <br />
 Amount: <input type="text" name="amt">
 Desription: <input type="text" name="description">
+<br /><br />
+Unsplit: <input type="checkbox" name="unsplit" value="unsplit">
 SGD: <input type="checkbox" name="sgd" value="sgd">
 <br />
 <br />
@@ -63,8 +73,17 @@ SGD: <input type="checkbox" name="sgd" value="sgd">
 <input type="checkbox" name="payer[]" value="hu"> Hu <br />
 <input type="checkbox" name="payer[]" value="n1"> N1 <br />
 <input type="checkbox" name="payer[]" value="xy"> XY <br />
+<br /><input type="checkbox" onClick="checkall(this)"> Check All <br />
 <br />
 <input type="submit" name="submit" value="submit">
 </form>
+<script type="text/javascript">
+function checkall(source) {
+  checkboxes = document.getElementsByName('payer[]');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = source.checked;
+  }
+}
+</script>
 </body>
 </html>
