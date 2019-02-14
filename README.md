@@ -1,1 +1,3 @@
 # accountant
+
+Split bills easily
