@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"]=='POST')
 			{
 				echo"<tr><th>To PAY ".$row1[0].": SGD ".$payment."</th></tr>";
 			}
-			else if ($total > 0)
+			elseif ($total > 0)
 			{
 				echo"<tr><th>To RECEIVE from ".$row1[0].": SGD ".$payment."</th></tr>";
 			}
