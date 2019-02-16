@@ -7,23 +7,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     	if ((!empty($_POST["tripname"])) && (!empty($_POST["people"])) && (!empty($_POST["currency"]))&& (floatval($_POST["currency"]) != 0))
     	{
     	    $trip_name = $_POST["tripname"];
-		    $currency = floatval($_POST["currency"]);
-		    $currency = mysqli_real_escape_string($dbc, $currency);
+	    $currency = floatval($_POST["currency"]);
+	    $currency = mysqli_real_escape_string($dbc, $currency);
     	    $tripname = mysqli_real_escape_string($dbc, $trip_name);
     	    $people_data = $tripname."_people";
     	    $transactions_data = $tripname."_transactions";
 	        $people = explode (",", $_POST["people"]);
 	        $query = "SELECT trip_name FROM trip WHERE trip_name = '$trip_name'";
 	        $tripexist = mysqli_query($dbc, $query);
-	        $alrexist = 0;
-	        while ($row1 = mysqli_fetch_array($tripexist, MYSQLI_NUM))
-	        {
-	            if ($row1[0] == $trip_name)
-	            {
-	                $alrexist = 1;
-	            }
-	        }
-	        if (!$alrexist)
+	        if (!(mysqli_fetch_row($tripexist)>0))
 	        {
 	    	    $create_people = "CREATE TABLE  `$people_data` ( 
 	    	    `id` INT(10) NOT NULL AUTO_INCREMENT , 
@@ -40,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	    	    PRIMARY KEY (`id`)
 	    	    )";
 		
-		        $people_table = mysqli_real_escape_string($dbc, $people_data);
-		        $transactions_table = mysqli_real_escape_string($dbc, $transactions_data);
+		    $people_table = mysqli_real_escape_string($dbc, $people_data);
+		    $transactions_table = mysqli_real_escape_string($dbc, $transactions_data);
 	    	    $r1 = mysqli_query($dbc, $create_people);
 	    	    $r2 = mysqli_query($dbc, $create_transactions);
 	    	    $add_trip = "INSERT INTO trip (trip_name, people, transactions, currency) VALUES ('$trip_name', '$people_table', '$transactions_table', '$currency')";
@@ -51,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	    	    {
 	    		    $person = mysqli_real_escape_string($dbc, $person);
 	    		    $add_people = "INSERT INTO `$people_data` (name) VALUES    ('$person')";
-			        $r4 = mysqli_query($dbc, $add_people);
+			     $r4 = mysqli_query($dbc, $add_people);
 		        }
 		
 	    	    echo "Success";
