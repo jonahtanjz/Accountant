@@ -8,18 +8,18 @@ $tripexist = mysqli_query($dbc, $query1);
 if (mysqli_num_rows($tripexist)>0)
 {		
 	$trip = mysqli_real_escape_string($dbc, $_GET["trip"]);
-    $getTable = "SELECT people, transactions FROM trip WHERE trip_name = '$trip'";
-    $PTtable = mysqli_query($dbc, $getTable);
+	$getTable = "SELECT people, transactions FROM trip WHERE trip_name = '$trip'";
+    	$PTtable = mysqli_query($dbc, $getTable);
 	$PTrow = mysqli_fetch_row($PTtable);
 	$trip_people = $PTrow[0];
 	$trip_transactions = $PTrow[1];
 	$individual = "SELECT name FROM `$trip_people`";
 	$pay = "SELECT * FROM `$trip_transactions`";
 	$people = mysqli_query($dbc, $individual);
-    $total = array();
+    	$total = array();
 	
-    while ($row1 = mysqli_fetch_array($people, MYSQLI_NUM))
-    {
+    	while ($row1 = mysqli_fetch_array($people, MYSQLI_NUM))
+    	{
 		$owe = 0;
 		$receive = 0;
 		$view_pay = mysqli_query($dbc, $pay);
@@ -27,15 +27,15 @@ if (mysqli_num_rows($tripexist)>0)
 		{
 			if ($row[1] == $row1[0])
 			{
-		    	$owe = $owe + $row[3];
-		    }
-		    if ($row[2] == $row1[0])
-		    {
-		    	$receive = $receive + $row[3];
-		    }
+		    		$owe = $owe + $row[3];
+		    	}
+		    	if ($row[2] == $row1[0])
+		    	{
+		    		$receive = $receive + $row[3];
+		    	}
 		}
 				
-	    $total[$row1[0]] = $receive - $owe;
+	    	$total[$row1[0]] = $receive - $owe;
 	}
 			
 	asort($total);
