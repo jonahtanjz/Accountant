@@ -75,7 +75,8 @@ if (mysqli_num_rows($tripexist)>0)
 		    	echo "</table><br /><br /><br /><br /><br />";
 		    }
 	    }	
-	
+	    
+	    echo "<h3><a href='suggest.php?trip=".rawurlencode($_GET["trip"])."'>Suggested Payments</a></h3>";
 	    die();
     }
 
@@ -105,6 +106,7 @@ if (mysqli_num_rows($tripexist)>0)
     echo "</select>
     <input type='submit' name='submit' value='submit'>
     </form>
+    <p><h3><a href='suggest.php?trip=".rawurlencode($_GET["trip"])."'>Suggested Payments</a></h3></p>
     </body>
     </html>
     ";
